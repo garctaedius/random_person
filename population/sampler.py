@@ -2,7 +2,9 @@ import numpy as np
 from rasterio.transform import xy
 from affine import Affine
 
-def sample_weighted_location(data: np.ndarray, transform: Affine) -> tuple[float, float]:
+from util.named_types import Location
+
+def sample_weighted_location(data: np.ndarray, transform: Affine) -> Location:
     # Mask out negative cells (where no one lives)
     mask = data > 0
 
@@ -22,6 +24,8 @@ def sample_weighted_location(data: np.ndarray, transform: Affine) -> tuple[float
 
     lon, lat = xy(transform, row, col)
 
-    return (lat, lon)
+    loc = Location(latitude=lat, longitude=lon)
+
+    return loc
 
     
